@@ -4,6 +4,7 @@ package_upgrade: true
 packages:
   # Base packages
   - curl
+  - make
   # docker & docker-compose required packages
   - ca-certificates
   - gnupg
