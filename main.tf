@@ -20,7 +20,7 @@ variable "location" {
   default = "nbg1"
 }
 variable "server_type" {
-	default = "cpx11"
+	default = "cpx21"
 }
 
 provider "hcloud" {
