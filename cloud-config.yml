@@ -1,0 +1,51 @@
+#cloud-config
+package_update: true
+package_upgrade: true
+packages:
+  # Base packages
+  - curl
+  # docker & docker-compose required packages
+  - ca-certificates
+  - gnupg
+  - lsb-release
+  - python3-dev
+  - libffi-dev
+  - libc-dev
+  - cargo
+  - openssl-server
+  # Python
+  - python3
+  - python3-pip
+runcmd:
+  # Disable firewall. Using VPS firewall instead
+  - ufw disable
+  # Install docker & docker-compose
+  - install -m 0755 -d /etc/apt/keyrings
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+  - chmod a+r /etc/apt/keyrings/docker.gpg
+  - echo \
+    "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+    "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+    sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  - apt-get update
+  - apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y # Install docker and compose
+  # Install docker-compose standalone (for compatibility)
+  - curl -SL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+  - chmod +x /usr/local/bin/docker-compose # Apply executable permissions to the binary
+  # Install NodeJS (nvm, node, npm)
+  - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash # Install nvm
+  - export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # Load nvm
+  - nvm install 18.16.0 # Install nodejs and npm
+  # Install rust
+  - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+  - source "$HOME/.cargo/env"
+  # Install Golang
+  - wget https://go.dev/dl/go1.20.3.linux-amd64.tar.gz
+  - rm -rf /usr/local/go && tar -C /usr/local -xzf go1.20.3.linux-amd64.tar.gz
+  - rm go1.20.3.linux-amd64.tar.gz
+  - export PATH=$PATH:/usr/local/go/bin
+  # Install VS Code Server
+  - curl -Lk 'https://code.visualstudio.com/sha/download?build=stable&os=cli-alpine-x64' --output vscode_cli.tar.gz
+  - tar -xf vscode_cli.tar.gz
+  - mv code /usr/local/bin
+  - rm vscode_cli.tar.gz
