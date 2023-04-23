@@ -43,7 +43,7 @@ runcmd:
   - wget https://go.dev/dl/go1.20.3.linux-amd64.tar.gz
   - rm -rf /usr/local/go && tar -C /usr/local -xzf go1.20.3.linux-amd64.tar.gz
   - rm go1.20.3.linux-amd64.tar.gz
-  - export PATH=$PATH:/usr/local/go/bin
+  - echo "export PATH=$PATH:/usr/local/go/bin" >> /etc/profile
   # Install VS Code Server
   - curl -Lk 'https://code.visualstudio.com/sha/download?build=stable&os=cli-alpine-x64' --output vscode_cli.tar.gz
   - tar -xf vscode_cli.tar.gz
