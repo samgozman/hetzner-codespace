@@ -5,6 +5,8 @@ on:
 jobs:
   create_server:
     runs-on: ubuntu-latest
+    env:
+      TF_VAR_HCLOUD_TOKEN: ${{ secrets.TF_VAR_HCLOUD_TOKEN }}
     steps:
       - uses: actions/checkout@v3
 
@@ -14,10 +16,6 @@ jobs:
           echo "${{ secrets.ACTIONS_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           echo "${{ secrets.HETZNER_SSH_KEY }}" > id_rsa.pub
           echo "${{ secrets.ACTIONS_SSH_KEY }}" > id_rsa_github.pub
-
-      - name: Create tfvars secrets file
-        run: |
-          echo "hetzner_token = \"${{ secrets.HETZNER_CLOUD_TOKEN }}\"" > terraform.auto.tfvars
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2

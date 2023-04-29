@@ -7,9 +7,7 @@ terraform {
   required_version = ">= 1.3.4"
 }
 
-#! Create .auto.tfvars file with the following content:
-# hcloud_token = "<your_hetzner_api_key>"
-variable "hcloud_token" {}
+variable "HCLOUD_TOKEN" {}
 variable "os_type" {
   default = "ubuntu-22.04"
 }
@@ -24,7 +22,7 @@ variable "server_type" {
 }
 
 provider "hcloud" {
-  token = var.hcloud_token
+  token = var.HCLOUD_TOKEN
 }
 
 # Your SSH key to connect from your local machine to the VM

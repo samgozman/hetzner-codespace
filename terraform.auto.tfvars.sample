@@ -1,2 +1,2 @@
 # Your Hetzner Cloud API Token
-hcloud_token = ""
+HCLOUD_TOKEN = ""
