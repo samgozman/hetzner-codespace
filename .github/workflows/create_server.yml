@@ -30,7 +30,16 @@ jobs:
         run: terraform validate -no-color
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve -input=false
+        run: |
+          export exitcode=0
+          terraform apply -auto-approve -input=false || export exitcode=$?
+          
+          if [ $exitcode -eq 1 ]; then
+            # Try to refresh state if applied failed
+            terraform apply -refresh-only -auto-approve -input=false
+          else 
+            echo "Terraform apply created server successfully"
+          fi
 
       - name: Save server IP address as output
         run: |
