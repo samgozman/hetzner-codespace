@@ -11,6 +11,7 @@ jobs:
       - name: Create SSH key files
         run: |
           echo "${{ secrets.HETZNER_SSH_KEY }}" > id_rsa.pub
+          echo "${{ secrets.GITHUB_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           echo "${{ secrets.GITHUB_SSH_KEY }}" > id_rsa_github.pub
 
       - name: Create tfvars secrets file
@@ -53,8 +54,10 @@ jobs:
 #      - name: Wait for server to be ready
 #        run: sleep 90
 
-  # ! Todo: Find a way to get the IP address of the server from terraform output
-  # setup-server:
-  #   runs-on: ubuntu-latest
-  #   env:
-  #     SSH_CONNECTION: ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
+#  TODO: add ip to known hosts
+# echo "${{ needs.create_server.outputs.server_ip }}" > ~/.ssh/known_hosts
+
+# setup-server:
+#   runs-on: ubuntu-latest
+#   env:
+#     SSH_CONNECTION: ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
