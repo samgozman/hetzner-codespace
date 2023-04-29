@@ -35,7 +35,7 @@ jobs:
           terraform apply -auto-approve -input=false || export exitcode=$?
           
           if [ $exitcode -eq 1 ]; then
-            # Try to refresh state if applied failed
+            echo "Terraform apply failed to created server successfully. Trying again but with -refresh-only.."
             terraform apply -refresh-only -auto-approve -input=false
           else 
             echo "Terraform apply created server successfully"
@@ -43,8 +43,7 @@ jobs:
 
       - name: Save server IP address as output
         run: |
-          export server_ip="0.0.0.0"
-          terraform output -raw server_ip | export server_ip=$?
+          server_ip=$(terraform output -raw server_ip)
           echo "SERVER_IP=$server_ip" >> $GITHUB_OUTPUT
 
   print_server_ip:
