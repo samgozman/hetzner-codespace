@@ -20,7 +20,7 @@ variable "location" {
   default = "nbg1"
 }
 variable "server_type" {
-	default = "cpx21"
+  default = "cpx21"
 }
 
 provider "hcloud" {
@@ -62,14 +62,14 @@ resource "hcloud_server" "codespace" {
   image       = var.os_type
   server_type = var.server_type
   datacenter  = var.datacenter
-  ssh_keys    = [
+  ssh_keys = [
     hcloud_ssh_key.default.id,
     hcloud_ssh_key.github.id
   ]
-  backups     = false
+  backups = false
   public_net {
     ipv4_enabled = true
-    ipv4 = hcloud_primary_ip.public.id
+    ipv4         = hcloud_primary_ip.public.id
   }
   firewall_ids = [
     hcloud_firewall.ssh_firewall_public.id,
@@ -81,12 +81,12 @@ resource "hcloud_server" "codespace" {
 
 # Create public static IP address
 resource "hcloud_primary_ip" "public" {
-  name          = "primary_public_ip"
-  datacenter    = var.datacenter
-  type          = "ipv4"
-  assignee_type = "server"
-  auto_delete   = false
-  delete_protection  = false
+  name              = "primary_public_ip"
+  datacenter        = var.datacenter
+  type              = "ipv4"
+  assignee_type     = "server"
+  auto_delete       = false
+  delete_protection = false
 }
 
 ## Output
