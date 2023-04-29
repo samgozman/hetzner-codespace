@@ -17,7 +17,7 @@ jobs:
 
       - name: Create tfvars secrets file
         run: |
-          echo "hetzner_token = \"${{ secrets.HETZNER_CLOUD_TOKEN }}\"" > secrets.auto.tfvars
+          echo "hetzner_token = \"${{ secrets.HETZNER_CLOUD_TOKEN }}\"" > terraform.auto.tfvars
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
