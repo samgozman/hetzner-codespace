@@ -34,16 +34,14 @@ jobs:
 
       - name: Save server IP address as output
         id: server_ip
-        run: echo "::set-output name=server_ip::$(terraform output -raw server_ip)"
-    outputs:
-        server_ip: ${{ steps.server_ip.outputs.server_ip }}
+        run: echo "SERVER_IP=${{ terraform output -raw server_ip }}" >> "$GITHUB_OUTPUT"
 
   print_server_ip:
     needs: create_server
     runs-on: ubuntu-latest
     steps:
       - name: Print server IP
-        run: echo ${{ needs.create_server.outputs.server_ip }}
+        run: echo ${{ steps.create_server.outputs.SERVER_IP }}
 
 
 #  sleep:
