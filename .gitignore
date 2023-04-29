@@ -36,5 +36,4 @@ terraform.rc
 .vscode/
 .idea/
 
-id_rsa
-id_rsa.pub
+id_rsa*
