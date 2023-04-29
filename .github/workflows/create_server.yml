@@ -43,7 +43,7 @@ jobs:
 
       - name: Save server IP address as output
         run: |
-          server_ip=$(terraform output -raw server_ip)
+          export server_ip=$(terraform output -raw server_ip)
           echo "SERVER_IP=$server_ip" >> $GITHUB_OUTPUT
 
   print_server_ip:
