@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  create-server:
+  create_server:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -32,12 +32,26 @@ jobs:
       - name: Terraform Apply
         run: terraform apply -auto-approve -input=false
 
-  sleep:
+      - name: Save server IP address as output
+        id: server_ip
+        run: echo "::set-output name=server_ip::$(terraform output -raw server_ip)"
+    outputs:
+        server_ip: ${{ steps.server_ip.outputs.server_ip }}
+
+  print_server_ip:
+    needs: create_server
     runs-on: ubuntu-latest
-    needs: create-server
     steps:
-      - name: Wait for server to be ready
-        run: sleep 90
+      - name: Print server IP
+        run: echo ${{ needs.create_server.outputs.server_ip }}
+
+
+#  sleep:
+#    runs-on: ubuntu-latest
+#    needs: create_server
+#    steps:
+#      - name: Wait for server to be ready
+#        run: sleep 90
 
   # ! Todo: Find a way to get the IP address of the server from terraform output
   # setup-server:
