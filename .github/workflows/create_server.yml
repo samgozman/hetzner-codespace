@@ -10,8 +10,9 @@ jobs:
 
       - name: Create SSH key files
         run: |
-          echo "${{ secrets.HETZNER_SSH_KEY }}" > id_rsa.pub
+          install -m 600 -D /dev/null ~/.ssh/id_rsa
           echo "${{ secrets.ACTIONS_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          echo "${{ secrets.HETZNER_SSH_KEY }}" > id_rsa.pub
           echo "${{ secrets.ACTIONS_SSH_KEY }}" > id_rsa_github.pub
 
       - name: Create tfvars secrets file
