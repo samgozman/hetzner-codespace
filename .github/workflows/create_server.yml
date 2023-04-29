@@ -29,14 +29,8 @@ jobs:
       - name: Terraform Validate
         run: terraform validate -no-color
 
-      - name: Terraform Refresh
-        run: terraform refresh || true
-
       - name: Terraform Apply
         run: terraform apply -auto-approve -input=false
-
-      - name: Terraform output test
-        run: terraform output -raw server_ip
 
       - name: Save server IP address as output
         run: echo "SERVER_IP=$(terraform output -raw server_ip)" >> $GITHUB_OUTPUT
