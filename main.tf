@@ -89,6 +89,6 @@ resource "hcloud_primary_ip" "public" {
 
 ## Output
 
-output "servers_ip" {
+output "server_ip" {
   value = hcloud_server.codespace.ipv4_address
 }
