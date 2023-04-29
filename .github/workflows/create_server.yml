@@ -41,10 +41,11 @@ jobs:
             echo "Terraform apply created server successfully"
           fi
 
+      - name: Terraform output test
+        run: terraform output -raw server_ip
+
       - name: Save server IP address as output
-        run: |
-          export server_ip=$(terraform output -raw server_ip)
-          echo "SERVER_IP=$server_ip" >> $GITHUB_OUTPUT
+        run: echo "SERVER_IP=$(terraform output -raw server_ip)" >> $GITHUB_OUTPUT
 
   print_server_ip:
     needs: create_server
