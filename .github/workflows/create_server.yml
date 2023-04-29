@@ -33,8 +33,10 @@ jobs:
         run: terraform apply -auto-approve -input=false
 
       - name: Save server IP address as output
-        id: server_ip
-        run: echo "SERVER_IP=${{ terraform output -raw server_ip }}" >> "$GITHUB_OUTPUT"
+        run: |
+          export server_ip="0.0.0.0"
+          terraform output -raw server_ip | export server_ip=$?
+          echo "SERVER_IP=$server_ip" >> $GITHUB_OUTPUT
 
   print_server_ip:
     needs: create_server
