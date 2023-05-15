@@ -17,6 +17,8 @@ packages:
   # Python
   - python3
   - python3-pip
+  # Protoc
+  - protobuf-compiler
 runcmd:
   # Disable firewall. Using VPS firewall instead
   - ufw disable
